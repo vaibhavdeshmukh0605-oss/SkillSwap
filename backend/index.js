@@ -12,11 +12,26 @@ import LocalStrategy from "passport-local"
 import User from "./models/user.model.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
+import { Server } from 'socket.io';
+import {createServer} from 'http'
+// import ioConnection from './sockets/index.socket.js';
+
 // import mongoose from "mongoose";
 
 const Port = process.env.PORT;
 const app = express();
-const upload = multer({ dest: "uploads/" });
+const server = createServer(app);
+const corsOption = {
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST","PUT", "PATCH", "DELETE"],
+  credentials: true,
+}
+const io = new Server(server,{
+  cors:corsOption
+})
+// const upload = multer({ dest: "uploads/" });
+// socket connection
+// ioConnection(io);
 
 ConnectDB();
 

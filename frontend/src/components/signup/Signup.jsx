@@ -37,22 +37,20 @@ function SignUpPage() {
         }
       }
     );
-      const {success,message,error} = res.data;
-      console.log(res);
-      
+      const {success,message} = res.data;
       if (success) {
         toast.success(message);
         setTimeout(() => {
           navigate("/login");
         }, 1000);
-      } else if (error) {
-        const details = error?.details[0].message;
-        toast.error(details)
-      } else if (!success) {
-        toast.error(message)
       }
     } catch (error) {
-       toast.error(error)
+      if (error.response && error.response.status === 409) {
+     toast.error("This email is already registered. Please log in instead.");
+  } else {
+     toast.error("Something went wrong. Please try again.");
+  }
+      //  toast.error(error)
     }
     
     
